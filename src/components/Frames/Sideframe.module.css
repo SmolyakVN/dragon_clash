@@ -1,0 +1,101 @@
+.sideframe {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    column-gap: 0;
+}
+
+.sideframe-main {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    row-gap: 1rem;
+    padding: 1rem 1rem 2rem 1rem;
+}
+
+.sideframe-additional {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 1rem;
+    padding: 0 1rem;
+}
+
+.sideframe-cards-container {
+    width: var(--card-width);
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    box-sizing: content-box;
+    border: 5px solid rgb(237, 237, 237);
+    border-radius: 10px;
+  }
+  
+  .cards-stack {
+    width: var(--card-width);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+.player-score {
+    font-size: 4rem;
+    font-weight: 600;
+    color: #707070;
+    transition: all 0.5s;
+}
+  
+.player-score.add {
+    transform: scale(1.25);
+    color: #c38bfa;
+}
+  
+.player-score.subtract {
+    transform: scale(0.85);
+    color: red;
+}
+  
+.player-name-div {
+    position: relative;
+    max-width: calc(var(--card-width) + 2rem);
+}
+  
+.player-name {
+    font-size: 2rem;
+    color: #5d5d5d;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 0.5rem;
+}
+  
+.player-underline {
+    position: absolute;
+    width: 0%;
+    height: 0.25rem;
+    background-color: #c38bfa;
+    transition: all 0.5s;
+    right: 0;
+}
+  
+.player-underline.active {
+    width: 100%;
+    left: 0;
+}
