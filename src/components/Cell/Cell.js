@@ -1,18 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from "./Cell.module.css";
 import classesSidebar from "../Frames/Sideframe.module.css";
 
 function Cell(props) {
-  // useEffect(() => {
-  //   if (props.openedCards[1].type !== 0){
-  //     document.querySelector(`.${classes['cell-div']}[data-type="${props.openedCards[1].type}"]`).click();
-  //   }
-  // }, [props.openedCards]);
+  // const [cellWidth, setCellWidth] = useState(0);
+  const cellRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (cellRef.current) {
+        // setCellWidth(cellRef.current.offsetWidth);
+        console.log(cellRef.current.offsetWidth)
+        document.documentElement.style.setProperty('--card-width', `${cellRef.current.offsetWidth}px`);
+      }
+    };
+    
+    updateWidth();
+    
+    window.addEventListener('resize', updateWidth);
+    
+    return () => {
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
 
   const handleClick = (e) => {
     let counter = props.openedCardsCount;
     let currentPlayer = props.currentPlayer;
-    document.documentElement.style.setProperty('--current-player', currentPlayer);
     let clickable = false;
     if (e.currentTarget.getAttribute("data-active") === 'false' && counter < 2){
       clickable = true;
@@ -166,6 +180,7 @@ function Cell(props) {
     props.display ? (
       <div
         className={`${classes['cell-div']}`}
+        ref={cellRef}
         data-type={props.type}
         data-active={props.active}
         onClick={handleClick}

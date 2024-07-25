@@ -53,11 +53,15 @@
     position: relative;
   }
 
+  .cards-stack-label {
+    font-size: calc(var(--card-width) / 4);
+  }
+
 .player-score {
-    font-size: 4rem;
+    font-size: calc(var(--card-width) / 2);
     font-weight: 600;
     color: #707070;
-    transition: all 0.5s;
+    transition: transform 0.5s;
 }
   
 .player-score.add {
@@ -72,11 +76,11 @@
   
 .player-name-div {
     position: relative;
-    max-width: calc(var(--card-width) + 2rem);
+    max-width: calc(var(--card-width) * 1.1);
 }
   
 .player-name {
-    font-size: 2rem;
+    font-size: calc(var(--card-width) / 4);
     color: #5d5d5d;
     text-align: center;
     width: 100%;
@@ -91,7 +95,7 @@
     width: 0%;
     height: 0.25rem;
     background-color: #c38bfa;
-    transition: all 0.5s;
+    transition: width 0.5s;
     right: 0;
 }
   

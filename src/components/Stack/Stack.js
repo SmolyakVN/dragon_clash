@@ -6,15 +6,6 @@ import classes from "../Frames/Sideframe.module.css";
 function Stack(props) {
     const [count, setCount] = useState(0);
 
-    useEffect(() => {
-        try{
-            const cellWidth = document.querySelector(`.${classesCell['cell']}`).offsetWidth;
-            document.documentElement.style.setProperty('--card-width', `${cellWidth}px`);
-        } catch(err){
-            console.log(err);
-        }
-    }, []);
-
     const renderWithCounter = (filterFn, cells) => {
         return cells.map((item, i) => 
             filterFn(item) ? (
@@ -43,7 +34,7 @@ function Stack(props) {
             <div className={`${classes['cards-stack']}`}>
                 {renderWithCounter(item => item.player === props.playerNum && item.win === (props.type === 'wins' ? true : false), cells)}
             </div>
-            <div>{props.type === 'wins' ? 'победы' : 'потери'}</div>
+            <div className={classes['cards-stack-label']}>{props.type === 'wins' ? 'победы' : 'потери'}</div>
         </div>
     );
 }

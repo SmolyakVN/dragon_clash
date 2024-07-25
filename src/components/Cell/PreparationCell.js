@@ -1,7 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classes from "./Cell.module.css";
 
 function PreparationCell(props) {
+  const preparationCellRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (preparationCellRef.current) {
+        document.documentElement.style.setProperty('--card-width', `${preparationCellRef.current.offsetWidth}px`);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => {
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
+
   const onDragStart = (event, itemIndex, source) => {
     event.dataTransfer.setData("item", JSON.stringify({ itemIndex, source }));
     props.setDragging(source);
@@ -61,6 +76,7 @@ function PreparationCell(props) {
   return (
       <div
         className={`${classes['cell-div']}`}
+        ref={preparationCellRef}
         data-type={props.type}
         data-value={props.value}
         draggable

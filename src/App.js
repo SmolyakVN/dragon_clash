@@ -4,6 +4,7 @@ import AuthForm from './components/AuthForm/AuthForm.js';
 import Middleframe from "./components/Frames/Middleframe.js";
 import Sideframe from "./components/Frames/Sideframe.js";
 import classesSideframe from "./components/Frames/Sideframe.module.css";
+// import classesCells from "./components/Cell/Cell.module.css";
 import LongPolling from './components/LongPolling.js';
 import axios from "axios";
 
@@ -39,6 +40,14 @@ cellListFirstPlayer = shuffleList(cellListFirstPlayer);
 cellListSecondPlayer = shuffleList(cellListSecondPlayer);
 
 function App() {
+  // const changeCellWidth = () => {
+  //   console.log(document.querySelector(`.${classesCells['cell-div']}`).offsetWidth)
+  //   const cellWidth = document.querySelector(`.${classesCells['cell-div']}`).offsetWidth;
+  //   document.documentElement.style.setProperty('--card-width', `${cellWidth}px`);
+  // }
+  // window.addEventListener('resize', changeCellWidth);
+  // window.addEventListener('load', changeCellWidth);
+
   const bonuses = [
     {'bonus': 'attack', 'icon': 'sword', 'description': 'bonus attack'},
     {'bonus': 'guard', 'icon': 'shield', 'description': 'bonus guard'},
@@ -228,8 +237,11 @@ function App() {
   }, [notUsedBonusesList]);
 
   // useEffect(() => {
-  //   subscribe();
-  // }, []);
+  //   // subscribe();
+  //   setTimeout(() => {
+  //     changeCellWidth();
+  //   }, 1000)    
+  // }, [secondPlayerIsReady]);
 
   // const subscribe = async () => {
   //     try {
