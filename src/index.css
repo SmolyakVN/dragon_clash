@@ -5,6 +5,7 @@
 
 :root {
   --card-width: auto;
+  --font-size: calc(var(--card-width) / 4);
 }
 
 #root {

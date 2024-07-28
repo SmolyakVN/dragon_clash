@@ -54,11 +54,11 @@
   }
 
   .cards-stack-label {
-    font-size: calc(var(--card-width) / 4);
+    font-size: var(--font-size);
   }
 
 .player-score {
-    font-size: calc(var(--card-width) / 2);
+    font-size: calc(var(--font-size) * 2);
     font-weight: 600;
     color: #707070;
     transition: transform 0.5s;
@@ -80,7 +80,7 @@
 }
   
 .player-name {
-    font-size: calc(var(--card-width) / 4);
+    font-size: var(--font-size);
     color: #5d5d5d;
     text-align: center;
     width: 100%;

@@ -11,7 +11,7 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    font-size: calc(var(--card-width) / 2);
+    font-size: calc(var(--font-size) * 2);
     font-weight: 600;
     cursor: default;
     background-color: #fefefe;
@@ -51,8 +51,8 @@
   
 .card-label {
     position: absolute;
-    font-size: calc(var(--card-width) / 5.55);
-    line-height: calc(var(--card-width) / 5.25);
+    font-size: calc(var(--font-size) * 0.75);
+    line-height: calc(var(--font-size) * 0.8);
     font-weight: 400;
     width: 100%;
     height: 100%;
