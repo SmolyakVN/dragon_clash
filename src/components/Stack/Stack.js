@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import CardInStack from "./CardInStack.js";
-import classesCell from "../Cell/Cell.module.css";
 import classes from "../Frames/Sideframe.module.css";
 
 function Stack(props) {
@@ -14,9 +13,6 @@ function Stack(props) {
                 type={item.type}
                 value={item.value}
                 count={count}
-                setDescription={props.setDescription}
-                setAdditionalDescription={props.setAdditionalDescription}
-                setShowDescription={props.setShowDescription}
             ></CardInStack>
             ) : null
         );

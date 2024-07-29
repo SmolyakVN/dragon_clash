@@ -1,12 +1,14 @@
 import React from 'react';
 import classes from './Middleframe.module.css';
+import { useAppContext } from '../../AppProvider';
 
 function Description(props) {
+    const {description, showDescription, additionalDescription} = useAppContext();
     return (
-        <div className={`${classes["middleframe-information"]} ${classes["description"]}`} style={{'opacity': props.showDescription ? '1' : '0'}}>
-                {props.description}
+        <div className={`${classes["middleframe-information"]} ${classes["description"]}`} style={{'opacity': showDescription ? '1' : '0'}}>
+                {description}
             <p className={classes['additional-description']}>
-                {props.additionalDescription !== '' ? props.additionalDescription : ''}
+                {additionalDescription !== '' ? additionalDescription : ''}
             </p>
         </div>
     );

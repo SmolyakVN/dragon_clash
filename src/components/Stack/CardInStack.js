@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import classes from "./CardInStack.module.css";
+import { useAppContext } from '../../AppProvider.jsx';
 
 function CardInStack(props) {
+    const {setDescription, setAdditionalDescription, setShowDescription} = useAppContext();
     const cardRef = useRef(null);
 
     useEffect(() => {
@@ -15,13 +17,13 @@ function CardInStack(props) {
     }, []);
 
     const showDescription = () => {
-        props.setShowDescription(true);
-        props.setDescription(props.value);
-        props.setAdditionalDescription('');
+        setShowDescription(true);
+        setDescription(props.value);
+        setAdditionalDescription('');
     }
     
       const hideDescription = () => {
-        props.setShowDescription(false);
+        setShowDescription(false);
     }
     
     return (

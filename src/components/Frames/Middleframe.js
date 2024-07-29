@@ -3,30 +3,57 @@ import classes from "./Middleframe.module.css";
 import Cell from "../Cell/Cell.js";
 import PreparationCell from "../Cell/PreparationCell.js";
 import Description from './Description.js';
+import { useAppContext } from '../../AppProvider.jsx';
 
 function Middleframe(props) {
     const [opacityButtonsBlock, setOpacityButtonsBlock] = useState('0');
+    const {
+        playersScore, setPlayersScore,
+        setCurrentPlayer,
+        roundsCounter, setRoundsCounter,
+        setBonusesPoints,
+        roundIsFinished, setRoundIsFinished,
+        showButtons, setShowButtons,
+        cellsFirstPlayer, setCellsFirstPlayer, 
+        cellsSecondPlayer, setCellsSecondPlayer,
+        cellListFirstPlayer, cellListSecondPlayer,
+        firstPlayerIsReady, setFirstPlayerIsReady, 
+        setSecondPlayerIsReady,
+        setActivatedBonuses,
+        setUsedBonuses, 
+        setNotUsedBonusesList,
+        setGettingBonusesList,
+        bonusesPointsDefault,
+        showCards, setShowCards,
+        playerNameInputSelected, setPlayerNameInputSelected,
+        firstPlayerName, setFirstPlayerName, 
+        secondPlayerName, setSecondPlayerName,
+        description,
+        showDescription,
+        additionalDescription,
+        activeCards
+    } = useAppContext();
 
     function newGameButtonHandle(){
         newRoundButtonHandle();
-        props.setPlayersScore({'1': 0, '2': 0});
-        props.setCurrentPlayer(1);
-        props.setRoundsCounter(1);
+        setPlayersScore({'1': 0, '2': 0});
+        setCurrentPlayer(1);
+        setRoundsCounter(1);
     }
 
     function newRoundButtonHandle(){
-        props.setBonusesPoints(props.bonusesPointsDefault);
-        props.setRoundIsFinished(false);
-        props.setShowButtons(false);
-        props.setCellsFirstPlayer(shuffleList(props.cellListFirstPlayer));
-        props.setCellsSecondPlayer(shuffleList(props.cellListSecondPlayer));
-        props.setFirstPlayerIsReady(false);
-        props.setSecondPlayerIsReady(false);
-        props.setActivatedBonuses([]);
-        props.setUsedBonuses([]);
-        props.setNotUsedBonusesList([]);
-        props.setGettingBonusesList([]);
-        props.setRoundsCounter(props.roundsCounter + 1);
+        setBonusesPoints(bonusesPointsDefault);
+        setRoundIsFinished(false);
+        setShowButtons(false);
+        setCellsFirstPlayer(shuffleList(cellListFirstPlayer));
+        setCellsSecondPlayer(shuffleList(cellListSecondPlayer));
+        setFirstPlayerIsReady(false);
+        setSecondPlayerIsReady(false);
+        setActivatedBonuses([]);
+        setUsedBonuses([]);
+        setNotUsedBonusesList([]);
+        setGettingBonusesList([]);
+        setRoundsCounter(roundsCounter + 1);
     }
 
     function opacityElementEnter(e){
@@ -38,46 +65,46 @@ function Middleframe(props) {
     }
 
     function nextPlayerContinueHandle(){
-        if (!props.firstPlayerIsReady){
-            props.setFirstPlayerIsReady(true);
+        if (!firstPlayerIsReady){
+            setFirstPlayerIsReady(true);
         } else {
-            props.setSecondPlayerIsReady(true);
+            setSecondPlayerIsReady(true);
         }
-        props.setShowCards(false);
+        setShowCards(false);
     }
 
     function nextPlayerSkipHandle(){
-        if (!props.firstPlayerIsReady){
-            props.setPlayersScore(prevScores => ({
+        if (!firstPlayerIsReady){
+            setPlayersScore(prevScores => ({
             ...prevScores,
-            ['1']: props.playersScore['1'] + 10
+            ['1']: playersScore['1'] + 10
             }));
-            props.setFirstPlayerIsReady(true);
+            setFirstPlayerIsReady(true);
         } else {
-            props.setPlayersScore(prevScores => ({
+            setPlayersScore(prevScores => ({
             ...prevScores,
-            ['2']: props.playersScore['2'] + 10
+            ['2']: playersScore['2'] + 10
             }));
-            props.setSecondPlayerIsReady(true);
+            setSecondPlayerIsReady(true);
         }
-        props.setShowCards(false);
+        setShowCards(false);
     }
 
     function playerNameInputFocusHandle(e){
-        props.setPlayerNameInputSelected(true);
+        setPlayerNameInputSelected(true);
         opacityElementLeave(e);
     }
 
     function playerNameInputBlurHandle(){
-        props.setPlayerNameInputSelected(false);
+        setPlayerNameInputSelected(false);
     }
 
     function playerNameInputChangeHandle(e){
-        !props.firstPlayerIsReady ? props.setFirstPlayerName(e.currentTarget.value) : props.setSecondPlayerName(e.currentTarget.value);
+        !firstPlayerIsReady ? setFirstPlayerName(e.currentTarget.value) : setSecondPlayerName(e.currentTarget.value);
     }
 
     function playerNameInputHoverHandle(e){
-        if (!props.playerNameInputSelected) {
+        if (!playerNameInputSelected) {
             opacityElementEnter(e);
         }
     }
@@ -90,7 +117,7 @@ function Middleframe(props) {
         return array;
     }
 
-    if (props.showButtons){
+    if (showButtons){
         setTimeout(() => {
             setOpacityButtonsBlock('1');
         }, 500);
@@ -101,47 +128,47 @@ function Middleframe(props) {
             <div className={classes["middleframe-div"]}>
                 <div className={classes["middleframe-main-div"]}>
                     <div className={`${classes["middleframe-information"]} ${classes["round"]}`}>
-                        Раунд {props.roundsCounter}
+                        Раунд {roundsCounter}
                     </div>
-                    {!props.roundIsFinished ? 
+                    {!roundIsFinished ? 
                         <div className={classes["middleframe-containers-div"]}>
                             <div className={classes["container"]}>
-                                {props.cellsFirstPlayer.map((item, i) => (
+                                {cellsFirstPlayer.map((item, i) => (
                                     <Cell
                                         {...props.cellProps}
-                                        active={props.activeCards.includes(item.index)}
+                                        active={activeCards.includes(item.index)}
                                         display={item.display}
                                         value={item.value}
                                         key={i}
                                         id={i}
                                         index={item.index}
                                         type={item.type}
-                                        cells={props.cellsFirstPlayer}
-                                        setCells={props.setCellsFirstPlayer}
+                                        cells={cellsFirstPlayer}
+                                        setCells={setCellsFirstPlayer}
                                     ></Cell>
                                 ))}
                             </div>
                             <div className={classes["container-separator"]}></div>
                             <div className={classes["container"]}>
-                                {props.cellsSecondPlayer.map((item, i) => (
+                                {cellsSecondPlayer.map((item, i) => (
                                     <Cell
                                         {...props.cellProps}
-                                        active={props.activeCards.includes(item.index)}
+                                        active={activeCards.includes(item.index)}
                                         display={item.display}
                                         value={item.value}
                                         key={i}
                                         id={i}
                                         index={item.index}
                                         type={item.type}
-                                        cells={props.cellsSecondPlayer}
-                                        setCells={props.setCellsSecondPlayer}
+                                        cells={cellsSecondPlayer}
+                                        setCells={setCellsSecondPlayer}
                                     ></Cell>
                                 ))}
                             </div>
                         </div>
                     : ( 
                         <div className={classes["newround-buttons-group"]} style={{'opacity': opacityButtonsBlock}}>
-                            {props.showButtons ? (
+                            {showButtons ? (
                                 <>
                                     <button onClick={newRoundButtonHandle}>продолжить</button>
                                     <button onClick={newGameButtonHandle}>новая игра</button>
@@ -150,9 +177,9 @@ function Middleframe(props) {
                         </div>
                     )}
                     <Description
-                        description={props.description}
-                        additionalDescription={props.additionalDescription}
-                        showDescription={props.showDescription}
+                        description={description}
+                        additionalDescription={additionalDescription}
+                        showDescription={showDescription}
                     ></Description>
                 </div>
             </div>
@@ -167,13 +194,13 @@ function Middleframe(props) {
                         onMouseLeave={opacityElementLeave}
                         onFocus={playerNameInputFocusHandle} 
                         onBlur={playerNameInputBlurHandle}
-                        value={!props.firstPlayerIsReady ? props.firstPlayerName : props.secondPlayerName}
+                        value={!firstPlayerIsReady ? firstPlayerName : secondPlayerName}
                     />
                     <div className={classes["preparation-information"]}>вы можете просмотреть и изменить расположение карт, либо пропустить этот шаг</div>
                 </div>
-                {props.showCards ? <button onClick={nextPlayerContinueHandle}>продолжить</button> : (
+                {showCards ? <button onClick={nextPlayerContinueHandle}>продолжить</button> : (
                 <div className={classes["preparation-buttons-div"]}>
-                    <button onClick={() => props.setShowCards(true)}>посмотреть</button>
+                    <button onClick={() => setShowCards(true)}>посмотреть</button>
                     <div className={classes["preparation-buttons-group"]}>
                     <button onClick={nextPlayerSkipHandle} onMouseEnter={opacityElementEnter} onMouseLeave={opacityElementLeave}>пропустить</button>
                     <div className={`${classes["preparation-buttons-group-label"]} ${classes["opacity-div"]}`}>+10 очков</div>
@@ -181,38 +208,36 @@ function Middleframe(props) {
                 </div>
                 )}
                 <div className={`${classes["container"]} ${classes["preparation"]}`}>
-                {!props.firstPlayerIsReady ? (
-                    props.cellsFirstPlayer.map((item, i) => (
+                {!firstPlayerIsReady ? (
+                    cellsFirstPlayer.map((item, i) => (
                     <PreparationCell
-                        {...props.cellPreparationProps}
                         value={item.value}
                         key={i}
                         id={i}
                         index={item.index}
                         type={item.type}
-                        cells={props.cellsFirstPlayer}
-                        setCells={props.setCellsFirstPlayer}
+                        cells={cellsFirstPlayer}
+                        setCells={setCellsFirstPlayer}
                     ></PreparationCell>
                     ))
                 ) : (
-                    props.cellsSecondPlayer.map((item, i) => (
+                    cellsSecondPlayer.map((item, i) => (
                     <PreparationCell
-                        {...props.cellPreparationProps}
                         value={item.value}
                         key={i}
                         id={i}
                         index={item.index}
                         type={item.type}
-                        cells={props.cellsSecondPlayer}
-                        setCells={props.setCellsSecondPlayer}
+                        cells={cellsSecondPlayer}
+                        setCells={setCellsSecondPlayer}
                     ></PreparationCell>
                     ))
                 )}
                 </div>
                 <Description
-                    description={props.description}
-                    additionalDescription={props.additionalDescription}
-                    showDescription={props.showDescription}
+                    description={description}
+                    additionalDescription={additionalDescription}
+                    showDescription={showDescription}
                 ></Description>
             </div>
         )

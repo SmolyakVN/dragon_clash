@@ -6,49 +6,60 @@ import spyglass from '../Icons/spyglass.svg';
 import x2 from '../Icons/x2.svg';
 import change from '../Icons/change.svg';
 import classesSidebar from '../Frames/Sideframe.module.css';
+import { useAppContext } from '../../AppProvider';
 
 function BonusButton(props) {
-    const icons = { sword, shield, spyglass, x2, change };
+    const {
+        activatedBonuses, setActivatedBonuses, 
+        openedCardsCount, setSpyActive, 
+        usedBonuses, setUsedBonuses,
+        currentPlayer, setCurrentPlayer,
+        roundIsFinished,
+        setShowDescription,
+        setDescription,
+        setAdditionalDescription,
+        bonusesPoints,
+        gettingBonusesList,
+        notUsedBonuses
+    } = useAppContext();
+    
+    const icons = {sword, shield, spyglass, x2, change};
 
     const bonusButtonClickHandler = (e) => {
-        let activatedBonuses = props.activatedBonuses;
         let bonus = e.currentTarget.getAttribute('data-bonus');
         if (
             e.currentTarget.classList.contains(classes['access']) &&
-            props.openedCardsCount === 0
+            openedCardsCount === 0
         ) {
             if (activatedBonuses.find((i) => i.bonus === bonus)) {
-                activatedBonuses.splice(
-                    activatedBonuses.findIndex((i) => i.bonus === bonus),
-                    1
-                );
-                props.setActivatedBonuses([...activatedBonuses]);
+                activatedBonuses.splice(activatedBonuses.findIndex((i) => i.bonus === bonus), 1);
+                setActivatedBonuses([...activatedBonuses]);
                 if (bonus === 'spy') {
-                    props.setSpyActive(false);
+                    setSpyActive(false);
                 }
             } else {
                 if (bonus === 'change') {
                     hideDescription();
-                    props.setUsedBonuses((prevUsedBonuses) => [
+                    setUsedBonuses((prevUsedBonuses) => [
                         ...prevUsedBonuses,
-                        { bonus: 'change', player: props.currentPlayer },
+                        { bonus: 'change', player: currentPlayer },
                     ]);
-                    props.setActivatedBonuses([]);
-                    let enemyPlayer = props.currentPlayer === 1 ? 2 : 1;
-                    props.setCurrentPlayer(enemyPlayer);
+                    setActivatedBonuses([]);
+                    let enemyPlayer = currentPlayer === 1 ? 2 : 1;
+                    setCurrentPlayer(enemyPlayer);
                     document
-                        .querySelector(`.${classesSidebar['player-underline']}[data-player="${props.currentPlayer}"]`)
+                        .querySelector(`.${classesSidebar['player-underline']}[data-player="${currentPlayer}"]`)
                         .classList.remove(classesSidebar['active']);
                     document
                         .querySelector(`.${classesSidebar['player-underline']}[data-player="${enemyPlayer}"]`)
                         .classList.add(classesSidebar['active']);
                 } else {
-                    props.setActivatedBonuses((prevBonuses) => [
+                    setActivatedBonuses((prevBonuses) => [
                         ...prevBonuses,
-                        { bonus: bonus, player: props.currentPlayer },
+                        { bonus: bonus, player: currentPlayer },
                     ]);
                     if (bonus === 'spy') {
-                        props.setSpyActive(true);
+                        setSpyActive(true);
                     }
                 }
             }
@@ -58,19 +69,15 @@ function BonusButton(props) {
     let additionalClasses = '';
     let additionalDescription = '(+1 в конце раунда)';
 
-    if (
-        props.usedBonuses.findIndex(
-            (i) => i.bonus === props.bonus && i.player === props.player
-        ) === -1
-    ) {
-        if (props.player === props.currentPlayer && !props.roundIsFinished) {
-            if (props.openedCardsCount === 0) {
+    if (usedBonuses.findIndex((i) => i.bonus === props.bonus && i.player === props.player) === -1) {
+        if (props.player === currentPlayer && !roundIsFinished) {
+            if (openedCardsCount === 0) {
                 additionalClasses += classes['access'];
             } else {
                 additionalClasses += classes['available'];
             }
             if (
-                props.activatedBonuses.findIndex(
+                activatedBonuses.findIndex(
                     (i) => i.bonus === props.bonus
                 ) > -1
             ) {
@@ -81,25 +88,25 @@ function BonusButton(props) {
         }
     }
 
-    if (props.roundIsFinished && props.bonus === 'change') {
+    if (roundIsFinished && props.bonus === 'change') {
         additionalClasses = '';
     }
 
     const clickHandler =
-        props.player === props.currentPlayer && !props.roundIsFinished
+        props.player === currentPlayer && !roundIsFinished
             ? bonusButtonClickHandler
             : null;
 
     const showDescription = () => {
         if (additionalClasses.match(/access/g)) {
-            props.setShowDescription(true);
-            props.setDescription(props.description);
-            props.setAdditionalDescription(additionalDescription);
+            setShowDescription(true);
+            setDescription(props.description);
+            setAdditionalDescription(additionalDescription);
         }
     };
 
     const hideDescription = () => {
-        props.setShowDescription(false);
+        setShowDescription(false);
     };
 
     let labelOpacity = '0';
@@ -107,17 +114,17 @@ function BonusButton(props) {
 
     if (props.bonus !== 'change') {
         if (
-            props.gettingBonusesList.includes(props.bonus) &&
-            props.bonusesPoints[props.bonus][props.player] > 0
+            gettingBonusesList.includes(props.bonus) &&
+            bonusesPoints[props.bonus][props.player] > 0
         ) {
             labelOpacity = '1';
-            labelPoints = props.bonusesPoints[props.bonus][props.player];
+            labelPoints = bonusesPoints[props.bonus][props.player];
         }
-        let findedIndex = props.notUsedBonuses.findIndex(
+        let findedIndex = notUsedBonuses.findIndex(
             (item) => item.bonus === props.bonus && item.player === props.player
         );
         if (findedIndex > -1) {
-            additionalDescription = `(+${props.notUsedBonuses[findedIndex].count + 1} в конце раунда)`;
+            additionalDescription = `(+${notUsedBonuses[findedIndex].count + 1} в конце раунда)`;
         }
     } else {
         additionalDescription = '';

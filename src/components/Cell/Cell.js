@@ -1,10 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from "./Cell.module.css";
 import classesSidebar from "../Frames/Sideframe.module.css";
+import { useAppContext } from '../../AppProvider';
 
 function Cell(props) {
-  // const [cellWidth, setCellWidth] = useState(0);
   const cellRef = useRef(null);
+  const {
+    spyActive, setSpyActive,
+    openedCardsCount, setOpenedCardsCount,
+    currentPlayer,
+    openedCards, setOpenedCards,
+    setActive,
+    activatedBonuses, setActivatedBonuses,
+    setUsedBonuses,
+    setDescription,
+    setAdditionalDescription,
+    setShowDescription,
+    usedBonuses,
+    setCurrentPlayer,
+    playersScore, setPlayersScore,
+    setCellsFirstPlayer, 
+    setCellsSecondPlayer
+  } = useAppContext();
 
   useEffect(() => {
     const updateWidth = () => {
@@ -25,31 +42,30 @@ function Cell(props) {
   }, []);
 
   const handleClick = (e) => {
-    let counter = props.openedCardsCount;
-    let currentPlayer = props.currentPlayer;
+    let counter = openedCardsCount;
     let clickable = false;
     if (e.currentTarget.getAttribute("data-active") === 'false' && counter < 2){
       clickable = true;
-      if (props.spyActive && counter > 0){
+      if (spyActive && counter > 0){
         clickable = false;
       }
       if (counter === 1){
-        if (props.openedCards[0].type === props.type && props.type !== currentPlayer){
+        if (openedCards[0].type === props.type && props.type !== currentPlayer){
           clickable = false;
         }
       }
     }
     if (clickable) {
         showDescription();
-        const openedCards = props.openedCards;
+        // const openedCards = openedCards;
         openedCards[counter].type = props.type;
         openedCards[counter].value = props.value;
         openedCards[counter].index = props.index;
-        props.setOpenedCards(openedCards);
+        setOpenedCards(openedCards);
         counter++;
         if (counter <= 2){
-          props.setActive(prevActiveCards => [...prevActiveCards, props.index]);
-          props.setOpenedCardsCount(counter);
+          setActive(prevActiveCards => [...prevActiveCards, props.index]);
+          setOpenedCardsCount(counter);
           e.currentTarget.querySelector(`.${classes['cell-front']}`).classList.add(classes['cell-front-reverse']);
           e.currentTarget.querySelector(`.${classes['cell-back']}`).classList.add(classes['cell-back-reverse']);
           if (counter === 2){
@@ -64,10 +80,10 @@ function Cell(props) {
               }
               let playerChange = false;
               let shieldSaves = false;
-              if (props.activatedBonuses.findIndex(i => i.bonus === 'attack') > -1){
+              if (activatedBonuses.findIndex(i => i.bonus === 'attack') > -1){
                 currentPlayerCardValue *= 2;
               }
-              if (props.activatedBonuses.findIndex(i => i.bonus === 'guard') > -1){
+              if (activatedBonuses.findIndex(i => i.bonus === 'guard') > -1){
                 if (currentPlayerCardValue < enemyPlayerCardValue){
                   shieldSaves = true;
                 }
@@ -80,9 +96,9 @@ function Cell(props) {
               } else {
                 const newDataFirstCard = { index: 0, display: false, player: currentPlayer, win: false };
                 const newDataSecondCard = { index: 0, display: false };
-                const currentScore = props.playersScore[currentPlayer];
+                const currentScore = playersScore[currentPlayer];
                 let scoreChange = currentPlayerCardValue >= enemyPlayerCardValue ? enemyPlayerCardValue : -currentPlayerCardValue;
-                if (props.activatedBonuses.findIndex(i => i.bonus === 'x2') > -1){
+                if (activatedBonuses.findIndex(i => i.bonus === 'x2') > -1){
                   scoreChange *= 2;
                 }
                 const newScore = Math.max(0, currentScore + scoreChange);
@@ -99,11 +115,11 @@ function Cell(props) {
                   scoreResult = 'subtract';
                 }
                 document.querySelector(`.${classesSidebar['player-score']}[data-player="${currentPlayer}"]`).classList.add(classesSidebar[scoreResult]);
-                props.setPlayersScore(prevScores => ({
+                setPlayersScore(prevScores => ({
                   ...prevScores,
                   [currentPlayer]: newScore
                 }));
-                props.setCellsFirstPlayer(prevCells => 
+                setCellsFirstPlayer(prevCells => 
                   prevCells.map(cell =>
                     cell.index === newDataFirstCard.index
                     ? { ...cell, ...newDataFirstCard }
@@ -112,7 +128,7 @@ function Cell(props) {
                     : cell
                   )
                 );
-                props.setCellsSecondPlayer(prevCells => 
+                setCellsSecondPlayer(prevCells => 
                   prevCells.map(cell =>
                     cell.index === newDataFirstCard.index
                     ? { ...cell, ...newDataFirstCard }
@@ -122,40 +138,39 @@ function Cell(props) {
                   )
                 );
               }
-              let activatedBonuses = props.activatedBonuses;
+              let activatedBonusesArray = activatedBonuses;
               if (playerChange){
-                props.setCurrentPlayer(enemyPlayer);
-                activatedBonuses = [];
+                setCurrentPlayer(enemyPlayer);
+                activatedBonusesArray = [];
                 if (shieldSaves){
-                  activatedBonuses.push({'bonus': 'guard', 'player': currentPlayer});
+                  activatedBonusesArray.push({'bonus': 'guard', 'player': currentPlayer});
                 }
               }
-              let usedBonuses = props.usedBonuses;
-              usedBonuses = usedBonuses.filter(item => {
+              let usedBonusesArray = usedBonuses.filter(item => {
                 if (item.bonus === 'change') {
                   return false;
                 } else {
                   return true;
                 }
               });
-              usedBonuses.push(...activatedBonuses);
-              props.setUsedBonuses([...usedBonuses]);
+              usedBonusesArray.push(...activatedBonusesArray);
+              setUsedBonuses([...usedBonusesArray]);
             }, 2000);
-          } else if (counter === 1 && props.spyActive){
+          } else if (counter === 1 && spyActive){
             setTimeout(() => {
-              props.setUsedBonuses(prevUsedBonuses => [...prevUsedBonuses, {'bonus': 'spy', 'player': currentPlayer}]);
-              props.setSpyActive(false);
+              setUsedBonuses(prevUsedBonuses => [...prevUsedBonuses, {'bonus': 'spy', 'player': currentPlayer}]);
+              setSpyActive(false);
               document.querySelectorAll(`.${classes['cell']}`).forEach(cell => {
                 cell.classList.remove(classes['cell-front-reverse'], classes['cell-back-reverse']);
               });
             }, 2000);
           }
-          if (counter === 2 || (counter === 1 && props.spyActive)){
+          if (counter === 2 || (counter === 1 && spyActive)){
             setTimeout(() => {
-              props.setActivatedBonuses([]);
-              props.setActive([]);
-              props.setOpenedCardsCount(0);
-              props.setOpenedCards([{'type': 0, 'value': 0, 'index': 0 }, {'type': 0, 'value': 0, 'index': 0 }]);
+              setActivatedBonuses([]);
+              setActive([]);
+              setOpenedCardsCount(0);
+              setOpenedCards([{'type': 0, 'value': 0, 'index': 0 }, {'type': 0, 'value': 0, 'index': 0 }]);
               setTimeout(() => {
                 document.querySelector(`.${classesSidebar['player-score']}[data-player="${currentPlayer}"]`).classList.remove(classesSidebar['add'], classesSidebar['subtract']);
               }, 500);
@@ -167,13 +182,13 @@ function Cell(props) {
   };
 
   function showDescription() {
-    props.setShowDescription(true);
-    props.setDescription(props.value);
-    props.setAdditionalDescription('');
+    setShowDescription(true);
+    setDescription(props.value);
+    setAdditionalDescription('');
   }
 
   function hideDescription() {
-    props.setShowDescription(false);
+    setShowDescription(false);
   }
   
   return (
