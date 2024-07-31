@@ -33,7 +33,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  column-gap: 0.5rem;
 }
 
 .mainframe.preparation {
@@ -41,4 +40,11 @@ body {
   row-gap: 2rem;
   padding: 0 1rem;
   color: #5d5d5d;
+}
+
+@media screen and (max-width: 768px) {
+  .mainframe {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
 }

@@ -11,7 +11,11 @@ function CardInStack(props) {
         if (element) {
         element.style['z-index'] = `${props.count + 1}`;
         setTimeout(() => {
-            element.style.bottom = `${props.count * 0.8}rem`;            
+            if (window.innerWidth <= 768){
+              element.style.left = `${props.count * 1.5}rem`;  
+            } else {
+              element.style.bottom = `${props.count * 1.5}rem`;  
+            }         
         }, 10);
         }
     }, []);

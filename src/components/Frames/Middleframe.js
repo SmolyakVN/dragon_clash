@@ -3,6 +3,8 @@ import classes from "./Middleframe.module.css";
 import Cell from "../Cell/Cell.js";
 import PreparationCell from "../Cell/PreparationCell.js";
 import Description from './Description.js';
+import BonusButton from '../Buttons/BonusButton.js';
+import classesSideframe from "./Sideframe.module.css";
 import { useAppContext } from '../../AppProvider.jsx';
 
 function Middleframe(props) {
@@ -31,7 +33,8 @@ function Middleframe(props) {
         description,
         showDescription,
         additionalDescription,
-        activeCards
+        activeCards,
+        bonuses
     } = useAppContext();
 
     function newGameButtonHandle(){
@@ -130,52 +133,80 @@ function Middleframe(props) {
                     <div className={`${classes["middleframe-information"]} ${classes["round"]}`}>
                         Раунд {roundsCounter}
                     </div>
-                    {!roundIsFinished ? 
-                        <div className={classes["middleframe-containers-div"]}>
-                            <div className={classes["container"]}>
-                                {cellsFirstPlayer.map((item, i) => (
-                                    <Cell
-                                        {...props.cellProps}
-                                        active={activeCards.includes(item.index)}
-                                        display={item.display}
-                                        value={item.value}
+                    <div className={classes["board-div"]}>
+                        <div className={classes['bonus-buttons-div']}>
+                            {
+                                bonuses.map((item, i) => (
+                                    <BonusButton
                                         key={i}
-                                        id={i}
-                                        index={item.index}
-                                        type={item.type}
-                                        cells={cellsFirstPlayer}
-                                        setCells={setCellsFirstPlayer}
-                                    ></Cell>
-                                ))}
+                                        bonus={item.bonus}
+                                        icon={item.icon}
+                                        description={item.description}
+                                        player={1}
+                                    ></BonusButton>
+                                ))
+                            }
+                        </div>
+                        {!roundIsFinished ? 
+                            <div className={classes["middleframe-containers-div"]}>
+                                <div className={classes["container"]}>
+                                    {cellsFirstPlayer.map((item, i) => (
+                                        <Cell
+                                            {...props.cellProps}
+                                            active={activeCards.includes(item.index)}
+                                            display={item.display}
+                                            value={item.value}
+                                            key={i}
+                                            id={i}
+                                            index={item.index}
+                                            type={item.type}
+                                            cells={cellsFirstPlayer}
+                                            setCells={setCellsFirstPlayer}
+                                        ></Cell>
+                                    ))}
+                                </div>
+                                <div className={classes["container-separator"]}></div>
+                                <div className={classes["container"]}>
+                                    {cellsSecondPlayer.map((item, i) => (
+                                        <Cell
+                                            {...props.cellProps}
+                                            active={activeCards.includes(item.index)}
+                                            display={item.display}
+                                            value={item.value}
+                                            key={i}
+                                            id={i}
+                                            index={item.index}
+                                            type={item.type}
+                                            cells={cellsSecondPlayer}
+                                            setCells={setCellsSecondPlayer}
+                                        ></Cell>
+                                    ))}
+                                </div>
                             </div>
-                            <div className={classes["container-separator"]}></div>
-                            <div className={classes["container"]}>
-                                {cellsSecondPlayer.map((item, i) => (
-                                    <Cell
-                                        {...props.cellProps}
-                                        active={activeCards.includes(item.index)}
-                                        display={item.display}
-                                        value={item.value}
+                        : ( 
+                            <div className={classes["newround-buttons-group"]} style={{'opacity': opacityButtonsBlock}}>
+                                {showButtons ? (
+                                    <>
+                                        <button onClick={newRoundButtonHandle}>продолжить</button>
+                                        <button onClick={newGameButtonHandle}>новая игра</button>
+                                    </>
+                                ) : ('')}
+                            </div>
+                        )}
+                        <div className={classes['bonus-buttons-div']}>
+                            {
+                                bonuses.map((item, i) => (
+                                    <BonusButton
                                         key={i}
-                                        id={i}
-                                        index={item.index}
-                                        type={item.type}
-                                        cells={cellsSecondPlayer}
-                                        setCells={setCellsSecondPlayer}
-                                    ></Cell>
-                                ))}
-                            </div>
+                                        bonus={item.bonus}
+                                        icon={item.icon}
+                                        description={item.description}
+                                        player={2}
+                                    ></BonusButton>
+                                ))
+                            }
                         </div>
-                    : ( 
-                        <div className={classes["newround-buttons-group"]} style={{'opacity': opacityButtonsBlock}}>
-                            {showButtons ? (
-                                <>
-                                    <button onClick={newRoundButtonHandle}>продолжить</button>
-                                    <button onClick={newGameButtonHandle}>новая игра</button>
-                                </>
-                            ) : ('')}
-                        </div>
-                    )}
+                    </div>
                     <Description
                         description={description}
                         additionalDescription={additionalDescription}
