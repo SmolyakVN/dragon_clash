@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/battle_lords/static/css/main.20c55646.css",
-    "main.js": "/battle_lords/static/js/main.866b5180.js",
+    "main.css": "/battle_lords/static/css/main.2d1c65aa.css",
+    "main.js": "/battle_lords/static/js/main.9becacda.js",
     "static/media/Kurale.ttf": "/battle_lords/static/media/Kurale.a7778d165dfe78b2929a.ttf",
     "static/media/x2.svg": "/battle_lords/static/media/x2.019448c06edc08fb344baef65f593bfe.svg",
     "static/media/spyglass.svg": "/battle_lords/static/media/spyglass.e7ecdd4d15caefa1ffaedae5e5e59436.svg",
@@ -11,11 +11,11 @@
     "static/media/shield.svg": "/battle_lords/static/media/shield.d68fe0318e80763f98af53cca2e5cee0.svg",
     "static/media/change.svg": "/battle_lords/static/media/change.044a17cbfbc773cabb2879407c504a54.svg",
     "index.html": "/battle_lords/index.html",
-    "main.20c55646.css.map": "/battle_lords/static/css/main.20c55646.css.map",
-    "main.866b5180.js.map": "/battle_lords/static/js/main.866b5180.js.map"
+    "main.2d1c65aa.css.map": "/battle_lords/static/css/main.2d1c65aa.css.map",
+    "main.9becacda.js.map": "/battle_lords/static/js/main.9becacda.js.map"
   },
   "entrypoints": [
-    "static/css/main.20c55646.css",
-    "static/js/main.866b5180.js"
+    "static/css/main.2d1c65aa.css",
+    "static/js/main.9becacda.js"
   ]
 }
