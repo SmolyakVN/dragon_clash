@@ -264,6 +264,7 @@ function Middleframe(props) {
                         description={description}
                         additionalDescription={additionalDescription}
                         showDescription={showDescription}
+                        mode="battle"
                     ></Description>
                 </div>
             </div>
@@ -332,6 +333,7 @@ function Middleframe(props) {
                     description={description}
                     additionalDescription={additionalDescription}
                     showDescription={showDescription}
+                    mode="preparation"
                 ></Description>
             </div>
         )

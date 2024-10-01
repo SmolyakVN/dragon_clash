@@ -5,7 +5,7 @@ import { useAppContext } from '../../AppProvider';
 function Description(props) {
     const {description, showDescription, additionalDescription} = useAppContext();
     return (
-        <div className={`${classes["description"]}`} style={{'opacity': showDescription ? '1' : '0'}}>
+        <div className={`${classes["description"]}`} style={{'opacity': showDescription ? '1' : '0'}} data-descriptionmode={props.mode}>
                 {description}
             <p className={classes['additional-description']}>
                 {additionalDescription !== '' ? additionalDescription : ''}

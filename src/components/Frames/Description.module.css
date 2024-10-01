@@ -24,7 +24,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-    .description {
+    .description[data-descriptionmode="battle"] {
         display: none;
     }
 }
