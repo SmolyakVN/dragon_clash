@@ -13,6 +13,9 @@ function Stack(props) {
                 type={item.type}
                 value={item.value}
                 count={count}
+                img={item.img}
+                name={item.name}
+                description={item.description}
             ></CardInStack>
             ) : null
         );
@@ -26,7 +29,7 @@ function Stack(props) {
     }, [cells, props.playerNum, props.type]);
 
     return (
-        <div className={`${classes['sideframe-cards-container']} ${classes[props.type]}`}>
+        <div className={`${classes['sideframe-cards-container']}`}>
             <div className={`${classes['cards-stack']}`}>
                 {renderWithCounter(item => item.player === props.playerNum && item.win === (props.type === 'wins' ? true : false), cells)}
             </div>

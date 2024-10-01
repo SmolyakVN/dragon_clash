@@ -6,12 +6,18 @@ import Sideframe from './components/Frames/Sideframe.js';
 import LongPolling from './components/LongPolling.js';
 import axios from 'axios';
 import {AppProvider, useAppContext} from './AppProvider.jsx';
+import Header from './components/Frames/Header.jsx'
+import Footer from './components/Frames/Footer.jsx'
+import Modal from './components/Frames/Modal.jsx'
 
 function Root() {
   const {
     firstPlayerName, secondPlayerName,
     firstPlayerIsReady, secondPlayerIsReady,
-    cellsFirstPlayer, cellsSecondPlayer
+    cellsFirstPlayer, cellsSecondPlayer,
+    appBackground,
+    backgroundShadowOpacity,
+    opacityMainframeBlock
   } = useAppContext();
 
   // useEffect(() => {
@@ -45,30 +51,42 @@ function Root() {
   // localStorage.setItem('userId', '');
 
   return (
-    <div className='App'>
+    <div className={`App ${appBackground}`}>
+      <div className={'background-shadow'} style={{'opacity': backgroundShadowOpacity}}></div>
       {localStorage.getItem('userId') === '' ? (
-        <AuthForm />
-      ) : firstPlayerIsReady && secondPlayerIsReady ? (
-        <div className='mainframe'>
-          <Sideframe
-            playerName={firstPlayerName}
-            playerNum={1}
-            cells={[cellsFirstPlayer, cellsSecondPlayer]}>
-          </Sideframe>
-          <Middleframe
-            mode={'game'}>
-          </Middleframe>
-          <Sideframe
-            playerName={secondPlayerName}
-            playerNum={2}
-            cells={[cellsSecondPlayer, cellsFirstPlayer]}>
-          </Sideframe>
-        </div>
-      ) : (
-        <Middleframe
-          mode={'preparation'}>
-        </Middleframe>
-      )}
+          <AuthForm />
+        ) : (
+          <>
+            {/* <Header/> */}
+            {firstPlayerIsReady && secondPlayerIsReady ? (
+              <div className='mainframe' style={{'opacity': opacityMainframeBlock, 'transition': `opacity ${opacityMainframeBlock === '1' ? '0.5' : '0'}s`}}>
+                <Sideframe
+                  playerName={firstPlayerName}
+                  playerNum={1}
+                  cells={[cellsFirstPlayer, cellsSecondPlayer]}>
+                </Sideframe>
+                <Middleframe
+                  mode={'game'}>
+                </Middleframe>
+                <Sideframe
+                  playerName={secondPlayerName}
+                  playerNum={2}
+                  cells={[cellsSecondPlayer, cellsFirstPlayer]}>
+                </Sideframe>
+                <Modal/>
+              </div>
+            ) : (
+              <>
+                <Middleframe
+                  mode={'preparation'}>
+                </Middleframe>
+                <Modal/>
+              </>
+            )}
+            {/* <Footer/> */}
+          </>
+        )
+      }
     </div>
   );
 }

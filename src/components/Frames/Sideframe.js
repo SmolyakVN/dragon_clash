@@ -14,7 +14,7 @@ function Sideframe(props) {
     return (
         <div className={classes['sideframe']} style={props.playerNum === 2 ? {'flexDirection': 'row-reverse'} : null}>
             <div className={classes['sideframe-main']}>
-                <div className={classes['stacks-div']}>
+                <div className={classes['stacks-div']} data-player={props.playerNum}>
                     <Stack
                         {...stackProps}
                         type="losses"
@@ -25,9 +25,9 @@ function Sideframe(props) {
                     ></Stack>
                 </div>
                 <div className={classes['player-score-div']}>
-                    <div className={classes['player-score']} data-player={props.playerNum}>{playersScore[props.playerNum]}</div>
+                    <div className={`${classes['player-score']} ${props.playerNum === 1 ? classes['greens'] : classes['blacks']}`} data-player={props.playerNum}>{playersScore[props.playerNum]}</div>
                     <div className={classes['player-name-div']}>
-                        <div className={classes['player-name']} title={props.playerName}>{props.playerName}</div>
+                        <div className={`${classes['player-name']} ${props.playerNum === 1 ? classes['greens'] : classes['blacks']}`} title={props.playerName}>{props.playerName}</div>
                         <div data-player={props.playerNum} className={`${classes['player-underline']} ${props.playerNum === currentPlayer ? classes['active'] : ''}`}></div>
                     </div>
                 </div>

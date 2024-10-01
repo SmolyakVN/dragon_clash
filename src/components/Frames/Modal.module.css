@@ -1,0 +1,106 @@
+.modal-frame {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background-color: #00000025;
+    row-gap: 0.5rem;
+}
+
+.modal-body {
+    width: 80%;
+    max-width: 80vh;
+    aspect-ratio: 1/1;
+    background-color: white;
+    box-shadow: 3px -3px 10px 0px #00000085;
+    border-radius: 3px;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.modal-description-div {
+    background-image: linear-gradient(0deg, #ffffffcc 0%, transparent 100%);
+    min-height: 20%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: calc(var(--font-size)* 2);
+    /* row-gap: 1rem; */
+}
+
+.modal-description-title {
+    color: rgb(55, 55, 55);
+    text-shadow: 0px 0px 3px #d8d8d88a, 0 0 2px white, 0 0 4px white;
+    font-weight: 600;
+    padding-left: 2%;
+    font-size: calc(var(--font-size) / 1.15);
+    margin-bottom: 0.5rem;
+}
+
+.modal-description-alias {
+    color: rgb(55, 55, 55);
+    text-shadow: 0px 0px 3px #d8d8d88a, 0 0 2px white, 0 0 4px white;
+    font-weight: 600;
+    padding-left: 2%;
+    font-size: calc(var(--font-size) / 1.75);
+    margin-bottom: 1rem;
+}
+
+.modal-description-text {
+    color: rgb(55, 55, 55);
+    text-shadow: 0px 0px 3px #d8d8d88a, 0 0 2px white, 0 0 4px white;
+    font-weight: 600;
+    padding: 0 2% 2% 2%;
+    font-size: calc(var(--font-size) / 2.25);
+    margin-bottom: 0.5rem;
+}
+
+.modal-buttons-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 80%;
+    max-width: 80vh;
+    column-gap: 0.5rem;
+}
+
+.modal-button {
+    height: calc(var(--font-size) * 1.5);
+    width: calc(var(--font-size) * 1.5);
+    mask-size: 100%;
+    background-color: #ffffff8f;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.modal-button.info {
+    -webkit-mask-image: url('../Icons/scroll.svg');
+    mask-image: url('../Icons/scroll.svg');
+    mask-size: 80%;
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+}
+
+.modal-button.close {
+    -webkit-mask-image: url('../Icons/close.svg');
+    mask-image: url('../Icons/close.svg');
+}
+
+.modal-button:hover {
+    background-color: white;
+}
+
+.modal-button.active {
+    background-color: white;
+}

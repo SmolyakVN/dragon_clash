@@ -27,6 +27,7 @@ function Cell(props) {
     const updateWidth = () => {
       if (cellRef.current) {
         // setCellWidth(cellRef.current.offsetWidth);
+        console.log(cellRef.current)
         console.log(cellRef.current.offsetWidth)
         document.documentElement.style.setProperty('--card-width', `${cellRef.current.offsetWidth}px`);
       }
@@ -49,8 +50,11 @@ function Cell(props) {
       if (spyActive && counter > 0){
         clickable = false;
       }
-      if (counter === 1){
-        if (openedCards[0].type === props.type && props.type !== currentPlayer){
+      if (counter === 0){
+        // if (openedCards[0].type === props.type && props.type !== currentPlayer){
+        //   clickable = false;
+        // }
+        if (props.type !== currentPlayer && !spyActive){
           clickable = false;
         }
       }
@@ -61,6 +65,7 @@ function Cell(props) {
         openedCards[counter].type = props.type;
         openedCards[counter].value = props.value;
         openedCards[counter].index = props.index;
+        // openedCards[counter].icon = props.icon;
         setOpenedCards(openedCards);
         counter++;
         if (counter <= 2){
@@ -75,8 +80,11 @@ function Cell(props) {
               let enemyPlayerCard = openedCards.find(i => i.type === enemyPlayer);
               let currentPlayerCardValue = currentPlayerCard ? currentPlayerCard.value : 0;
               let enemyPlayerCardValue = 0;
+              // let currentPlayerCardIcon = currentPlayerCard.icon;
+              // let enemyPlayerCardIcon = '';
               if (openedCards[0].type !== openedCards[1].type){
                 enemyPlayerCardValue = enemyPlayerCard.value;
+                // enemyPlayerCardIcon = enemyPlayerCard.icon;
               }
               let playerChange = false;
               let shieldSaves = false;
@@ -84,9 +92,7 @@ function Cell(props) {
                 currentPlayerCardValue *= 2;
               }
               if (activatedBonuses.findIndex(i => i.bonus === 'guard') > -1){
-                if (currentPlayerCardValue < enemyPlayerCardValue){
-                  shieldSaves = true;
-                }
+                shieldSaves = true;
               }
               if (openedCards[0].type === openedCards[1].type || shieldSaves){
                 document.querySelectorAll(`.${classes['cell']}`).forEach(cell => {
@@ -139,12 +145,13 @@ function Cell(props) {
                 );
               }
               let activatedBonusesArray = activatedBonuses;
+              console.log(activatedBonusesArray)
               if (playerChange){
                 setCurrentPlayer(enemyPlayer);
-                activatedBonusesArray = [];
-                if (shieldSaves){
-                  activatedBonusesArray.push({'bonus': 'guard', 'player': currentPlayer});
-                }
+                // activatedBonusesArray = [];
+                // if (shieldSaves){
+                //   activatedBonusesArray.push({'bonus': 'guard', 'player': currentPlayer});
+                // }
               }
               let usedBonusesArray = usedBonuses.filter(item => {
                 if (item.bonus === 'change') {
@@ -153,7 +160,9 @@ function Cell(props) {
                   return true;
                 }
               });
+              console.log(activatedBonusesArray);
               usedBonusesArray.push(...activatedBonusesArray);
+              console.log(usedBonusesArray)
               setUsedBonuses([...usedBonusesArray]);
             }, 2000);
           } else if (counter === 1 && spyActive){
@@ -170,7 +179,7 @@ function Cell(props) {
               setActivatedBonuses([]);
               setActive([]);
               setOpenedCardsCount(0);
-              setOpenedCards([{'type': 0, 'value': 0, 'index': 0 }, {'type': 0, 'value': 0, 'index': 0 }]);
+              setOpenedCards([{'type': 0, 'value': 0, 'index': 0 , 'icon': ''}, {'type': 0, 'value': 0, 'index': 0, 'icon': ''}]);
               setTimeout(() => {
                 document.querySelector(`.${classesSidebar['player-score']}[data-player="${currentPlayer}"]`).classList.remove(classesSidebar['add'], classesSidebar['subtract']);
               }, 500);
@@ -183,7 +192,7 @@ function Cell(props) {
 
   function showDescription() {
     setShowDescription(true);
-    setDescription(props.value);
+    setDescription(props.name);
     setAdditionalDescription('');
   }
 
@@ -201,15 +210,14 @@ function Cell(props) {
         onClick={handleClick}
         data-value={props.value}
       >
-        <div
-          className={`${classes.cell} ${classes['cell-back']}`}
-        >{props.value}</div>
+        <div className={`${classes.cell} ${classes['cell-back']} ${props.type === 1 ? classes['greens'] : classes['blacks']}`}></div>
         <div
           className={`${classes.cell} ${classes['cell-front']}`}
           onMouseEnter={showDescription}
           onMouseLeave={hideDescription}
+          style={{'backgroundImage': `url('${process.env.PUBLIC_URL}/Images/Dragons/${props.img}_${props.type}.jpg')`}}
         >
-          {props.value}
+          <div className={`${classes['cell-label-power']} ${props.type === 1 ? classes['greens'] : classes['blacks']}`}>{props.value}</div>
         </div>
       </div>
     ) : (

@@ -1,17 +1,19 @@
 .bonus-button {
     width: calc(var(--card-width) / 2);
+    max-width: 80%;
     aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 0px 4px 0px #707070aa;
     border: 1px solid #aaa;
     border-radius: 5px;
     transition-property: transform, background-color, border, box-shadow;
     transition-duration: 0.5s;
     cursor: not-allowed;
     position: relative;
+    background-color: #00000010;
+    backdrop-filter: blur(4px);
 }
 
 .bonus-button-body {
@@ -20,27 +22,31 @@
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center;
-    background-color: #aaa;
+    background-color: #ffffffa2;
     transition-property: transform, background-color, border, box-shadow;
     transition-duration: 0.5s;
     cursor: not-allowed;
 }
 
 .bonus-button.available {
-    border: 1px solid #f7c99b;
+    /* border: 1px solid #f7c99b; */
+    border: 1px solid white;
+    box-shadow: 0px 0px 4px 0px #707070aa;
 }
 
 .bonus-button-body.available {
-    background-color: #f7c99b;
+    background-color: #ffffffa2;
 }
 
 .bonus-button.access {
-    border: 1px solid #e2a05f;
+    /* border: 1px solid #e2a05f; */
+    border: 1px solid #4a4a4a;
     cursor: pointer;
+    box-shadow: 0px 0px 4px 0px #707070aa;
 }
 
 .bonus-button-body.access {
-    background-color: #e2a05f;
+    background-color: #4a4a4a;
     cursor: pointer;
 }
 
@@ -48,6 +54,8 @@
     transform: scale(1.15);
     box-shadow: 0px 0px 6px 0px #ff6363aa;
     border: 1px solid #e52222;
+    /* box-shadow: 0px 0px 6px 0px #4a4a4aa4;
+    border: 1px solid white; */
 }
 
 .bonus-button.access:hover .bonus-button-body {
@@ -56,6 +64,7 @@
 
 .bonus-button.access:active {
     box-shadow: 0px 0px 8px 0px #ff3535aa;
+    /* box-shadow: 0px 0px 8px 0px #4a4a4ad4; */
 }
 
 .bonus-button.active {
@@ -71,10 +80,14 @@
     position: absolute;
     left: calc(var(--card-width) / 2);
     padding: 0 0.5rem;
-    font-size: calc(var(--font-size) / 2);
+    font-size: calc(var(--font-size) / 1.5);
     font-weight: 600;
     opacity: 0;
     transition: opacity 0.5s;
+    /* color: #439906; */
+    /* text-shadow: 2px -1px 3px #d8d8d88a; */
+    color: #f59116;
+    text-shadow: 0px 0px 1px #4608008a, 0px 0px 4px #ff00008b;
 }
 
 .bonus-button-points-label[data-player="2"]{

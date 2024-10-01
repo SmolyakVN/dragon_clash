@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from "./Middleframe.module.css";
 import Cell from "../Cell/Cell.js";
 import PreparationCell from "../Cell/PreparationCell.js";
@@ -9,6 +9,7 @@ import { useAppContext } from '../../AppProvider.jsx';
 
 function Middleframe(props) {
     const [opacityButtonsBlock, setOpacityButtonsBlock] = useState('0');
+    const [opacityPreparationBlock, setOpacityPreparationBlock] = useState(false);
     const {
         playersScore, setPlayersScore,
         setCurrentPlayer,
@@ -20,7 +21,7 @@ function Middleframe(props) {
         cellsSecondPlayer, setCellsSecondPlayer,
         cellListFirstPlayer, cellListSecondPlayer,
         firstPlayerIsReady, setFirstPlayerIsReady, 
-        setSecondPlayerIsReady,
+        secondPlayerIsReady, setSecondPlayerIsReady,
         setActivatedBonuses,
         setUsedBonuses, 
         setNotUsedBonusesList,
@@ -34,7 +35,10 @@ function Middleframe(props) {
         showDescription,
         additionalDescription,
         activeCards,
-        bonuses
+        bonuses,
+        setAppBackground,
+        setBackgroundShadowOpacity,
+        setOpacityMainframeBlock
     } = useAppContext();
 
     function newGameButtonHandle(){
@@ -57,6 +61,9 @@ function Middleframe(props) {
         setNotUsedBonusesList([]);
         setGettingBonusesList([]);
         setRoundsCounter(roundsCounter + 1);
+        setOpacityPreparationBlock(false);
+        backgroundSetter('greens');
+        setOpacityMainframeBlock('0');
     }
 
     function opacityElementEnter(e){
@@ -70,10 +77,13 @@ function Middleframe(props) {
     function nextPlayerContinueHandle(){
         if (!firstPlayerIsReady){
             setFirstPlayerIsReady(true);
+            backgroundSetter('blacks');
         } else {
             setSecondPlayerIsReady(true);
+            backgroundSetter('');
         }
         setShowCards(false);
+        setOpacityPreparationBlock(false);
     }
 
     function nextPlayerSkipHandle(){
@@ -83,14 +93,23 @@ function Middleframe(props) {
             ['1']: playersScore['1'] + 10
             }));
             setFirstPlayerIsReady(true);
+            backgroundSetter('blacks');
         } else {
             setPlayersScore(prevScores => ({
             ...prevScores,
             ['2']: playersScore['2'] + 10
             }));
             setSecondPlayerIsReady(true);
+            backgroundSetter('');
         }
         setShowCards(false);
+        setOpacityPreparationBlock(false);
+    }
+
+    function backgroundSetter(background){
+        setTimeout(() => {
+            setAppBackground(background);
+        }, 0);
     }
 
     function playerNameInputFocusHandle(e){
@@ -100,10 +119,17 @@ function Middleframe(props) {
 
     function playerNameInputBlurHandle(){
         setPlayerNameInputSelected(false);
+        if (firstPlayerName === ''){
+            setFirstPlayerName('Игрок 1');
+        }
+        if (secondPlayerName === ''){
+            setSecondPlayerName('Игрок 2');
+        }
     }
 
     function playerNameInputChangeHandle(e){
-        !firstPlayerIsReady ? setFirstPlayerName(e.currentTarget.value) : setSecondPlayerName(e.currentTarget.value);
+        let playerName = e.currentTarget.value;
+        !firstPlayerIsReady ? setFirstPlayerName(playerName) : setSecondPlayerName(playerName);
     }
 
     function playerNameInputHoverHandle(e){
@@ -126,6 +152,23 @@ function Middleframe(props) {
         }, 500);
     }
 
+    // if (showButtons){
+    //     setTimeout(() => {
+    //         setOpacityButtonsBlock('1');
+    //     }, 500);
+    // }
+
+    useEffect(() => {
+        setBackgroundShadowOpacity('0');
+        setTimeout(() => {
+            setOpacityPreparationBlock(true);
+            setBackgroundShadowOpacity('1');
+            if (secondPlayerIsReady){
+                setOpacityMainframeBlock('1');
+            }
+        }, 2000);
+    }, [firstPlayerIsReady, secondPlayerIsReady]);
+
     return (
         props.mode === 'game' ? (
             <div className={classes["middleframe-div"]}>
@@ -136,12 +179,13 @@ function Middleframe(props) {
                     <div className={classes["board-div"]}>
                         <div className={classes['bonus-buttons-div']}>
                             {
-                                bonuses.map((item, i) => (
+                                bonuses['1'].map((item, i) => (
                                     <BonusButton
                                         key={i}
                                         bonus={item.bonus}
                                         icon={item.icon}
                                         description={item.description}
+                                        additionalDescription={item.additionalDescription}
                                         player={1}
                                     ></BonusButton>
                                 ))
@@ -160,8 +204,12 @@ function Middleframe(props) {
                                             id={i}
                                             index={item.index}
                                             type={item.type}
+                                            img={item.img}
+                                            icon={item.icon}
                                             cells={cellsFirstPlayer}
                                             setCells={setCellsFirstPlayer}
+                                            name={item.name}
+                                            description={item.description}
                                         ></Cell>
                                     ))}
                                 </div>
@@ -177,8 +225,12 @@ function Middleframe(props) {
                                             id={i}
                                             index={item.index}
                                             type={item.type}
+                                            img={item.img}
+                                            icon={item.icon}
                                             cells={cellsSecondPlayer}
                                             setCells={setCellsSecondPlayer}
+                                            name={item.name}
+                                            description={item.description}
                                         ></Cell>
                                     ))}
                                 </div>
@@ -195,12 +247,13 @@ function Middleframe(props) {
                         )}
                         <div className={classes['bonus-buttons-div']}>
                             {
-                                bonuses.map((item, i) => (
+                                bonuses['2'].map((item, i) => (
                                     <BonusButton
                                         key={i}
                                         bonus={item.bonus}
                                         icon={item.icon}
                                         description={item.description}
+                                        additionalDescription={item.additionalDescription}
                                         player={2}
                                     ></BonusButton>
                                 ))
@@ -215,7 +268,7 @@ function Middleframe(props) {
                 </div>
             </div>
         ) : (
-            <div className="mainframe preparation">
+            <div className="mainframe preparation" style={{'opacity': opacityPreparationBlock ? 1 : 0, 'transition': `opacity ${opacityPreparationBlock ? '0.5' : '0'}s`}}>
                 <div className={classes["player-name-group"]}>
                     <div className={`${classes["player-name-input-label"]} ${classes["opacity-div"]}`}>нажмите для редактирования</div>
                     <input 
@@ -223,11 +276,13 @@ function Middleframe(props) {
                         onChange={playerNameInputChangeHandle} 
                         onMouseEnter={playerNameInputHoverHandle} 
                         onMouseLeave={opacityElementLeave}
-                        onFocus={playerNameInputFocusHandle} 
+                        onFocus={playerNameInputFocusHandle}
                         onBlur={playerNameInputBlurHandle}
                         value={!firstPlayerIsReady ? firstPlayerName : secondPlayerName}
                     />
-                    <div className={classes["preparation-information"]}>вы можете просмотреть и изменить расположение карт, либо пропустить этот шаг</div>
+                    <div className={classes["preparation-information"]}>
+                        {!showCards ? 'вы можете просмотреть и изменить расположение карт, либо пропустить этот шаг' : 'вы можете изменить расположение карт'}
+                    </div>
                 </div>
                 {showCards ? <button onClick={nextPlayerContinueHandle}>продолжить</button> : (
                 <div className={classes["preparation-buttons-div"]}>
@@ -247,8 +302,12 @@ function Middleframe(props) {
                         id={i}
                         index={item.index}
                         type={item.type}
+                        img={item.img}
+                        icon={item.icon}
                         cells={cellsFirstPlayer}
                         setCells={setCellsFirstPlayer}
+                        name={item.name}
+                        description={item.description}
                     ></PreparationCell>
                     ))
                 ) : (
@@ -259,8 +318,12 @@ function Middleframe(props) {
                         id={i}
                         index={item.index}
                         type={item.type}
+                        img={item.img}
+                        icon={item.icon}
                         cells={cellsSecondPlayer}
                         setCells={setCellsSecondPlayer}
+                        name={item.name}
+                        description={item.description}
                     ></PreparationCell>
                     ))
                 )}

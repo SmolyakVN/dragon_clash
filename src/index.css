@@ -3,9 +3,14 @@
   src: url('./components/Fonts/Kurale.ttf');
 }
 
+@font-face {
+  font-family: 'Mason';
+  src: url('./components/Fonts/Mason.ttf');
+}
+
 :root {
   --card-width: auto;
-  --font-size: calc(var(--card-width) / 4);
+  --font-size: calc(var(--card-width) / 3.5);
 }
 
 #root {
@@ -14,7 +19,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Kurale';
+  font-family: 'Mason';
   cursor: default;
   user-select: none;
   -webkit-user-select: none; /* Safari */
@@ -32,7 +37,13 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  flex: 1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 1;
+  /* width: 100%;
+  max-width: 100vh;
+  height: 100%; */
 }
 
 .mainframe.preparation {
@@ -40,6 +51,9 @@ body {
   row-gap: 2rem;
   padding: 0 1rem;
   color: #5d5d5d;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 1;
 }
 
 @media screen and (max-width: 768px) {

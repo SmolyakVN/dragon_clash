@@ -9,7 +9,9 @@ function PreparationCell(props) {
     setShowDescription,
     setDescription, 
     setAdditionalDescription,
-    showCards
+    showCards,
+    setShowModal,
+    modalValue, setModalValue
   } = useAppContext();
 
   useEffect(() => {
@@ -31,6 +33,7 @@ function PreparationCell(props) {
   };
 
   const onDragEnd = (event) => {
+    event.currentTarget.querySelector(`.${classes['cell-front']}`).classList.remove(classes['valid-drop']);
     setDragging(null);
   };
 
@@ -45,7 +48,7 @@ function PreparationCell(props) {
 
   const onDrop = (event, dropIndex, destination) => {
     event.preventDefault();
-    event.target.classList.remove(classes['valid-drop'], classes['invalid-drop']);
+    event.currentTarget.querySelector(`.${classes['cell-front']}`).classList.remove(classes['valid-drop']);
     setDragging(null);
     const data = JSON.parse(event.dataTransfer.getData("item"));
     if (data.source === destination){
@@ -59,26 +62,40 @@ function PreparationCell(props) {
   };
 
   const onDragEnter = (event, destination) => {
-    if (dragging === destination) {
-      event.target.classList.add(classes['valid-drop']);
-    } else {
-      event.target.classList.add(classes['invalid-drop']);
-    }
+    document.querySelectorAll(`.${classes['cell-front']}`).forEach(cell => {
+      cell.classList.remove(classes['valid-drop']);
+    });
+    event.currentTarget.querySelector(`.${classes['cell-front']}`).classList.add(classes['valid-drop']);
   };
 
   const onDragLeave = (event) => {
     event.preventDefault();
-    event.target.classList.remove(classes['valid-drop'], classes['invalid-drop']);
+    if (event.relatedTarget && (event.currentTarget.getAttribute('data-value') === event.relatedTarget.getAttribute('data-value'))){
+      return;
+    } else {
+      event.target.classList.remove(classes['valid-drop']);
+    }
   };
 
   function showDescription() {
     setShowDescription(true);
-    setDescription(props.value);
+    setDescription(props.name);
     setAdditionalDescription('');
   }
 
   function hideDescription() {
     setShowDescription(false);
+  }
+
+  function showModal(value, type) {
+    setShowModal(true);
+    setModalValue(prevValues => {
+      return {
+        ...prevValues,
+        value,
+        type
+      }
+    });
   }
 
   return (
@@ -87,7 +104,7 @@ function PreparationCell(props) {
         ref={preparationCellRef}
         data-type={props.type}
         data-value={props.value}
-        draggable
+        draggable={showCards ? true : false}
         onDragStart={(event) => onDragStart(event, props.id, props.type)}
         onDragEnd={(event) => onDragEnd(event, props.id, props.type)}
         onDragOver={(event) => onDragOver(event, props.type)}
@@ -96,14 +113,16 @@ function PreparationCell(props) {
         onDragLeave={onDragLeave}
       >
         <div
-          className={`${classes.cell} ${classes['cell-back']} ${showCards ? classes['cell-back-reverse'] : null}`}
-        >{props.value}</div>
+          className={`${classes.cell} ${classes['preparation-back']} ${classes['cell-back']} ${showCards ? classes['cell-back-reverse'] : null} ${props.type === 1 ? classes['greens'] : classes['blacks']}`}
+        ></div>
         <div
           className={`${classes.cell} ${classes['cell-front']} ${showCards ? classes['cell-front-reverse'] : null}`}
           onMouseEnter={showDescription}
           onMouseLeave={hideDescription}
+          style={{'backgroundImage': `url('${process.env.PUBLIC_URL}/Images/Dragons/${props.img}_${props.type}.jpg')`}}
+          onClick={() => showModal(props.img, props.type)}
         >
-          {props.value}
+          <div className={`${classes['cell-label-power']} ${props.type === 1 ? classes['greens'] : classes['blacks']}`} data-value={props.value}>{props.value}</div>
         </div>
       </div>
   );

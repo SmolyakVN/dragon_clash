@@ -4,6 +4,9 @@ import sword from '../Icons/sword.svg';
 import shield from '../Icons/shield.svg';
 import spyglass from '../Icons/spyglass.svg';
 import x2 from '../Icons/x2.svg';
+import attack from '../Icons/attack.svg';
+import defeat from '../Icons/defeat.svg';
+import raven from '../Icons/raven.svg';
 import change from '../Icons/change.svg';
 import classesSidebar from '../Frames/Sideframe.module.css';
 import { useAppContext } from '../../AppProvider';
@@ -23,7 +26,7 @@ function BonusButton(props) {
         notUsedBonuses
     } = useAppContext();
     
-    const icons = {sword, shield, spyglass, x2, change};
+    const icons = {sword, shield, spyglass, x2, change, attack, defeat, raven};
 
     const bonusButtonClickHandler = (e) => {
         let bonus = e.currentTarget.getAttribute('data-bonus');
@@ -67,7 +70,7 @@ function BonusButton(props) {
     };
 
     let additionalClasses = '';
-    let additionalDescription = '(+1 в конце раунда)';
+    let additionalDescription = ' (+1 в конце раунда)';
 
     if (usedBonuses.findIndex((i) => i.bonus === props.bonus && i.player === props.player) === -1) {
         if (props.player === currentPlayer && !roundIsFinished) {
@@ -101,7 +104,8 @@ function BonusButton(props) {
         if (additionalClasses.match(/access/g)) {
             setShowDescription(true);
             setDescription(props.description);
-            setAdditionalDescription(additionalDescription);
+            // setAdditionalDescription(additionalDescription);
+            setAdditionalDescription(props.additionalDescription + additionalDescription);
         }
     };
 
@@ -124,7 +128,7 @@ function BonusButton(props) {
             (item) => item.bonus === props.bonus && item.player === props.player
         );
         if (findedIndex > -1) {
-            additionalDescription = `(+${notUsedBonuses[findedIndex].count + 1} в конце раунда)`;
+            additionalDescription = ` (+${notUsedBonuses[findedIndex].count + 1} в конце раунда)`;
         }
     } else {
         additionalDescription = '';

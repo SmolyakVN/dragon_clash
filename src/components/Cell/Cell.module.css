@@ -17,17 +17,16 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     font-size: calc(var(--font-size)  * 2);
     font-weight: 600;
-    cursor: pointer;
+    cursor: default;
 }
 
 .cell-front {
     z-index: 0;
     transform: rotateY(-180deg);
-    /* background-image: url(../Img/Dragons/morghul.jpg); */
-    background-size: 95% 95%;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -41,6 +40,21 @@
     z-index: 1;
     transform: rotateY(0deg);
     background-color: #dbe5ee;
+    cursor: pointer;
+}
+
+.preparation-back {
+    cursor: default;
+}
+
+.cell-back.greens {
+    background-image: url(../Img/Covers/greens.jpg);
+    background-size: 100% 100%;
+}
+
+.cell-back.blacks {
+    background-image: url(../Img/Covers/blacks.jpg);
+    background-size: 100% 100%;
 }
 
 .cell-back-reverse {
@@ -65,7 +79,9 @@
 }
 
 .valid-drop {
-    border: 3px dashed #c38bfa;
+    /* border: 3px dashed #c38bfa; */
+    /* border: 3px dashed #439906; */
+    border: 3px dashed #ffffff;
 }
 
 .invalid-drop {
@@ -74,4 +90,50 @@
 
 [draggable=true] div {
     cursor: move;
+}
+
+.cell-label-power {
+    /* position: absolute;
+    bottom: 0; */
+    font-size: calc(var(--font-size)* 1);
+    line-height: calc(var(--font-size)* 1.25);
+    width: 100%;
+    padding: 0 0.5rem;
+    text-align: right;
+    /* background-image: radial-gradient(#aaaaaaaa 20%, transparent 70%); */
+    /* color: white;
+    text-shadow: 0px 0px 3px #d8d8d88a;: 0px 0 3px black; */
+}
+
+.cell-label-power.greens {
+    text-align: left;
+    color: #007307;
+    text-shadow: 0px 0px 3px #d8d8d88a, 0px 0 3px #175300;
+}
+
+.cell-label-power.blacks {
+    right: 0;
+    color: #000000;
+    text-shadow: 0px 0px 3px #d8d8d88a,  0px 0 3px #ff0000;
+}
+
+.cell-label-icon-div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: calc(var(--font-size)* 1.25);
+    width: calc(var(--font-size)* 1.25);
+    filter: drop-shadow(0px 0px 2px black);
+}
+
+.cell-label-icon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: calc(var(--font-size)* 1.25);
+    width: calc(var(--font-size)* 1.25);
+    background-color: white;
+    mask-size: 70%;
+    mask-position: 50% 60%;
+    mask-repeat: no-repeat;
 }

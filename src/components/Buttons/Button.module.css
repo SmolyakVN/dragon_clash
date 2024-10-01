@@ -1,17 +1,29 @@
 button {
     width: 100%;
-    /* height: var(--font-size);
-    line-height: calc(var(--font-size) / 2);
-    font-size: calc(var(--font-size) / 2); */
-    height: 2rem;
-    line-height: 1rem;
-    font-size: 1rem;
-    padding: 0.35rem 0.5rem 0.5rem 0.5rem;
+    /* height: 2rem; */
+    /* line-height: 1rem; */
+    font-size: calc(var(--font-size) / 1.5);
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     border-radius: 4px;
-    border: 1px solid #bbb;
+    border: 3px solid #ffffff4a;
     outline: none;
     transition: all 0.35s;
     cursor: pointer;
+    color: #6d6d6d;
+    font-weight: 600;
+    background-color: #ffffff4a;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    transition: all 0.5s;
+}
+
+button:hover {
+    border: 3px solid #ffffff6a;
+    color: #5d5d5d;
+    background-color: #ffffff6a;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 6px #0000004a;
 }
 
 .button-auth {

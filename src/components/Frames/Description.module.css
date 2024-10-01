@@ -1,0 +1,24 @@
+.description {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: #5d5d5d;
+    text-shadow: 0px 0px 3px #d8d8d88a;
+    transition: opacity 0.5s;
+    height: 2rem;
+    font-size: calc(var(--font-size) * 0.75);
+}
+
+.additional-description {
+    margin: 0;
+    font-size: calc(var(--font-size) / 2);
+    line-height: 1rem;
+    height: 1rem;
+    font-weight: 400;
+    color: #5d5d5d;
+    text-shadow: 0px 0px 3px #d8d8d88a;
+}
