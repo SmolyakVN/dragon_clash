@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/dragon_clash/static/css/main.bbc792ad.css",
+    "main.css": "/dragon_clash/static/css/main.70b27a54.css",
     "main.js": "/dragon_clash/static/js/main.8cc5aaba.js",
     "static/media/bg_dragons_16_9.jpg": "/dragon_clash/static/media/bg_dragons_16_9.2741582baa646acafc8f.jpg",
     "static/media/Kurale.ttf": "/dragon_clash/static/media/Kurale.a7778d165dfe78b2929a.ttf",
@@ -31,11 +31,11 @@
     "static/media/change.svg": "/dragon_clash/static/media/change.044a17cbfbc773cabb2879407c504a54.svg",
     "index.html": "/dragon_clash/index.html",
     "static/media/close.svg": "/dragon_clash/static/media/close.f8cce9d8e61785e46719.svg",
-    "main.bbc792ad.css.map": "/dragon_clash/static/css/main.bbc792ad.css.map",
+    "main.70b27a54.css.map": "/dragon_clash/static/css/main.70b27a54.css.map",
     "main.8cc5aaba.js.map": "/dragon_clash/static/js/main.8cc5aaba.js.map"
   },
   "entrypoints": [
-    "static/css/main.bbc792ad.css",
+    "static/css/main.70b27a54.css",
     "static/js/main.8cc5aaba.js"
   ]
 }
