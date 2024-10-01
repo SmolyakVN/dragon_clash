@@ -91,7 +91,7 @@
 }
 
 .bonus-button-points-label[data-player="2"]{
-    right: calc((var(--card-width) / 2));
+    right: calc(var(--card-width) / 2);
     left: auto;
 }
 
