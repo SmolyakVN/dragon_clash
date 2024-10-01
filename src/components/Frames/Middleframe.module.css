@@ -229,4 +229,14 @@ button {
         flex-grow: 0;
         height: calc(var(--font-size) * 3);
     }
+
+    .preparation-buttons-group-label {
+        display: none;
+    }
+
+    .player-name-input-label {
+        opacity: 1!important;
+        margin-bottom: 0.5rem;
+        color: #4a4a4a4a;
+    }
 }

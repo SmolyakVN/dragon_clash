@@ -50,18 +50,6 @@
     cursor: pointer;
 }
 
-.bonus-button.access:hover {
-    transform: scale(1.15);
-    box-shadow: 0px 0px 6px 0px #ff6363aa;
-    border: 1px solid #e52222;
-    /* box-shadow: 0px 0px 6px 0px #4a4a4aa4;
-    border: 1px solid white; */
-}
-
-.bonus-button.access:hover .bonus-button-body {
-    background-color: #e52222;
-}
-
 .bonus-button.access:active {
     box-shadow: 0px 0px 8px 0px #ff3535aa;
     /* box-shadow: 0px 0px 8px 0px #4a4a4ad4; */
@@ -93,6 +81,20 @@
 .bonus-button-points-label[data-player="2"]{
     right: calc(var(--card-width) / 2);
     left: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .bonus-button.access:hover {
+        transform: scale(1.15);
+        box-shadow: 0px 0px 6px 0px #ff6363aa;
+        border: 1px solid #e52222;
+        /* box-shadow: 0px 0px 6px 0px #4a4a4aa4;
+        border: 1px solid white; */
+    }
+    
+    .bonus-button.access:hover .bonus-button-body {
+        background-color: #e52222;
+    }
 }
 
 @media screen and (max-width: 768px) {

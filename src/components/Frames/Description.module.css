@@ -24,6 +24,9 @@
 }
 
 @media screen and (max-width: 1200px) {
+    .description[data-descriptionmode="preparation"] {
+        opacity: 0!important;
+    }
     .description[data-descriptionmode="battle"] {
         display: none;
     }

@@ -112,6 +112,7 @@
   
 .player-name-div {
     position: relative;
+    width: 100%;
     /* max-width: calc(var(--card-width) * 1.1); */
 }
   
@@ -214,6 +215,8 @@
         position: absolute;
         bottom: 0;
         left: 0;
+        max-width: 50%;
+        min-width: 25%;
     }
 
     .player-score-div[data-player="2"] {
@@ -223,5 +226,13 @@
 
     .player-score {
         font-size: calc(var(--font-size) * 1.5);
+    }
+
+    .player-name {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: calc(var(--font-size));
     }
 }
