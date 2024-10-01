@@ -37,7 +37,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 1 1;
   opacity: 0;
   transition: opacity 0.5s;
   z-index: 1;
@@ -58,7 +58,7 @@ body {
 
 @media screen and (max-width: 768px) {
   .mainframe {
-    flex-direction: column;
-    row-gap: 1rem;
+    /* flex-direction: column;
+    row-gap: 1rem; */
   }
 }

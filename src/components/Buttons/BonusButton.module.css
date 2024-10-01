@@ -95,6 +95,20 @@
     left: auto;
 }
 
+@media screen and (max-width: 768px) {
+    .bonus-button-points-label{
+        top: calc(var(--card-width) / 1.75);
+        bottom: auto;
+        left: 0;
+    }
+
+    .bonus-button-points-label[data-player="2"]{
+        bottom: calc(var(--card-width) / 1.75);
+        top: auto;
+        left: 0;
+    }
+}
+
 /* 
 .bonus-button {
     border: none;

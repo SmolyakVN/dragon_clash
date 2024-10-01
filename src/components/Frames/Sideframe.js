@@ -24,7 +24,7 @@ function Sideframe(props) {
                         type="wins"
                     ></Stack>
                 </div>
-                <div className={classes['player-score-div']}>
+                <div className={classes['player-score-div']} data-player={props.playerNum}>
                     <div className={`${classes['player-score']} ${props.playerNum === 1 ? classes['greens'] : classes['blacks']}`} data-player={props.playerNum}>{playersScore[props.playerNum]}</div>
                     <div className={classes['player-name-div']}>
                         <div className={`${classes['player-name']} ${props.playerNum === 1 ? classes['greens'] : classes['blacks']}`} title={props.playerName}>{props.playerName}</div>
